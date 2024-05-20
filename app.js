@@ -1,18 +1,16 @@
 const express = require("express");
-// const db = require("./db");
+const db = require("./db");
 const app = express();
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const productsRouter = require("./routers/products");
+app.use(bodyParser.json());
+app.use(morgan("tiny"));
 require("dotenv/config");
 
 const api = process.env.API_URL;
 
-app.get(`${api}/products`, (req, res) => {
-  const product = {
-    id: 1,
-    name: "hair dresser",
-    image: "url",
-  };
-  res.send(product);
-});
+app.use(`${api}/products`, productsRouter);
 
 app.listen(5000, () => {
   console.log(api);
